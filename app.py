@@ -127,42 +127,51 @@ def Release_date_input(releasedatename):
     db = sqlite3.connect(database)
     cursor = db.cursor()
     sql = "SELECT Movie_name, Rating, Release_date from Movie Where Movie.Release_date ="+releasedatename+";"
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    #loop through all the results
-    print(f"Movie_name                                           Rating    Release_date")
-    for Movie in results:
-        print(f"{Movie[0]:<53}{Movie[1]:<10}{Movie[2]:<16}")
-    #loop finished here
-    db.close()
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        #loop through all the results
+        print(f"Movie_name                                           Rating    Release_date")
+        for Movie in results:
+            print(f"{Movie[0]:<53}{Movie[1]:<10}{Movie[2]:<16}")
+        #loop finished here
+    except:
+        print("That is not a valid option")
+        db.close()
 
 
 def Rating_input(ratingname):
     db = sqlite3.connect(database)
     cursor = db.cursor()
     sql = "SELECT Movie_name, Rating, Release_date from Movie Where Movie.Rating ="+ratingname+";"
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    #loop through all the results
-    print(f"Movie_name                                           Rating    Release_date")
-    for Movie in results:
-        print(f"{Movie[0]:<53}{Movie[1]:<10}{Movie[2]:<16}")
-    #loop finished here
-    db.close()
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        #loop through all the results
+        print(f"Movie_name                                           Rating    Release_date")
+        for Movie in results:
+            print(f"{Movie[0]:<53}{Movie[1]:<10}{Movie[2]:<16}")
+        #loop finished here
+    except:
+        print("That is not a valid option")
+        db.close()
 
 
 def Genre_input(genrename):
     db = sqlite3.connect(database)
     cursor = db.cursor()
-    sql = "SELECT Movie.Movie_name,Movie.Rating, Movie.Release_date, Genre.name FROM Movie JOIN Genre ON Movie.Genre_id=Genre.Genre_id WHERE Genre.name ="+genrename+";"
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    #loop through all the results
-    print(f"Movie_name                                             Rating    Release_date   Genre_name")
-    for Movie in results:
-        print(f"{Movie[0]:<55}{Movie[1]:<10}{Movie[2]:<15}{Movie[3]:<1}")
-    #loop finished here
-    db.close()
+    sql = f"SELECT Movie.Movie_name,Movie.Rating, Movie.Release_date, Genre.name FROM Movie JOIN Genre ON Movie.Genre_id=Genre.Genre_id WHERE Genre.name ='{genrename}'"
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        #loop through all the results
+        print(f"Movie_name                                             Rating    Release_date   Genre_name")
+        for Movie in results:
+            print(f"{Movie[0]:<55}{Movie[1]:<10}{Movie[2]:<15}{Movie[3]:<1}")
+        #loop finished here
+    except:
+        print("That is not a vaild option")
+        db.close()
 
 #main code
 while True:
@@ -194,16 +203,18 @@ while True:
         else:
             print("That is not a valid option")
     elif user_input == '3':
-        user_input_input = input("What data would you like to see with your input?\nEnter '1' to input a Rating\nEnter '2' to input a Release date\nEnter '3' to input a Genre\nEnter '0' to Exit the page\n")
+        user_input_input = input("What data would you like to see with your input?\nEnter '1' to input a Rating\nEnter '2' to input a Release year\nEnter '3' to input a Genre\nEnter '0' to Exit the page\n")
         if user_input_input == '1':
             Rating = input("Which Rating would you like to see between 1 to 10 with your input?\n")
             Rating_input(Rating)
         elif user_input_input == '2':
-            Release_date = input("Which Release date would you like to see with you input?\n")
+            Release_date = input("Which Release year would you like to see with you input?\n")
             Release_date_input(Release_date)
         elif user_input_input == '3':
             Genre = input("Which genre would you like to see with your input?\n")
             Genre_input(Genre)
+        elif user_input_input =='0':
+            continue
         else:
             print("That is not a vailid option")
     elif user_input == "0":
